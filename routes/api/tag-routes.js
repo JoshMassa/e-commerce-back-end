@@ -36,18 +36,8 @@ router.post('/', (req, res) => {
   // create a new tag
   Tag.create(req.body)
     .then((tag) => {
-      if (req.body.productIds.length) {
-        const tagIdArr = req.body.productIds.map((product_id) => {
-          return {
-            product_id,
-            tag_id: tag.id,
-          };
-        });
-        return ProductTag.bulkCreate(tagIdArr);
-      }
       res.status(201).json(tag);
     })
-    .then((tagIds) => res.status(200).json(tagIds))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
@@ -93,7 +83,7 @@ router.put('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  // delete on tag by its `id` value
+  // delete one tag by its `id` value
   Tag.destroy({
     where: {
       id: req.params.id,

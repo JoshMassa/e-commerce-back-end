@@ -36,18 +36,8 @@ router.post('/', (req, res) => {
   // create a new category
   Category.create(req.body)
     .then((category) => {
-      if (req.body.productIds) {
-        const categoryIdArr = req.body.productIds.map((product_id) => {
-          return {
-            product_id,
-            category_id: category.id,
-          };
-        });
-        return Category.bulkCreate(categoryIdArr);
-      }
       res.status(201).json(category);
     })
-    .then((categoryIds) => res.status(200).json(categoryIds))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
